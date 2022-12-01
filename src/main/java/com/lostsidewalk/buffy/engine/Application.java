@@ -1,0 +1,34 @@
+package com.lostsidewalk.buffy.engine;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+@SpringBootApplication
+@EnableAutoConfiguration
+@EnableScheduling
+@EnableConfigurationProperties
+@EnableTransactionManagement
+//@EnableCaching
+//@PropertySource("classpath:secret.properties")
+@ComponentScan({
+        "com.lostsidewalk.buffy",
+        "com.lostsidewalk.buffy.engine",
+        "com.lostsidewalk.buffy.newsapi",
+        "com.lostsidewalk.buffy.rss",
+})
+@Configuration
+public class Application {
+
+    public static void main(String[] args) {
+        //
+        // startup/context config
+        //
+        SpringApplication.run(Application.class, args);
+    }
+}
