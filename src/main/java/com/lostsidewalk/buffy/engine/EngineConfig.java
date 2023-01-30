@@ -2,9 +2,11 @@ package com.lostsidewalk.buffy.engine;
 
 import com.lostsidewalk.buffy.DataAccessException;
 import com.lostsidewalk.buffy.DataUpdateException;
+import com.lostsidewalk.buffy.discovery.Cataloger;
+import com.lostsidewalk.buffy.engine.audit.ErrorLogService;
 import com.lostsidewalk.buffy.post.PostImporter;
 import com.lostsidewalk.buffy.post.PostPurger;
-import com.lostsidewalk.buffy.query.QueryDefinitionDao;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.time.StopWatch;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,30 +24,31 @@ import static org.apache.commons.lang3.time.FastDateFormat.getDateTimeInstance;
 public class EngineConfig {
 
     @Autowired
-    QueryDefinitionDao queryDefinitionDao;
+    ErrorLogService errorLogService;
 
     @Autowired
     PostImporter postImporter;
 
     @Autowired
     PostPurger postPurger;
+
+    @Autowired
+    Cataloger cataloger;
     //
     // perform the import process once per hour
     //
     @Scheduled(fixedDelayString = "${post.importer.fixed-delay}", timeUnit = HOURS)
+    @Transactional
     public void doImport() {
         log.info("Import process starting at {}", getDateTimeInstance(MEDIUM, MEDIUM).format(new Date()));
         //
         // run the import process on all active queries (across all users)
         //
-        try {
-            postImporter.doImport(queryDefinitionDao.findAllActive());
-        } catch (Exception e) {
-            log.error("Something horrible happened due to: {}", e.getMessage(), e);
-        }
+        postImporter.doImport();
     }
 
     @Scheduled(fixedDelayString = "${post.importer.purge-delay}", timeUnit = HOURS)
+    @Transactional
     public void doPurge() {
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
@@ -57,8 +60,30 @@ public class EngineConfig {
                     getDateTimeInstance(MEDIUM, MEDIUM).format(stopWatch.getStopTime()),
                     itemsPurged,
                     stopWatch.getTime());
-        } catch (DataAccessException | DataUpdateException e) {
+        } catch (DataAccessException e) {
             log.error("The purge process failed due to: {}", e.getMessage());
+            errorLogService.logDataAccessException(new Date(), e);
+        } catch (DataUpdateException e) {
+            log.error("The purge process failed due to: {}", e.getMessage());
+            errorLogService.logDataUpdateException(new Date(), e);
+        }
+    }
+
+    @Scheduled(fixedDelayString = "${feed.catalog.update-delay}", timeUnit = HOURS)
+//    @Transactional
+    public void doCatalogUpdate() {
+        StopWatch stopWatch = new StopWatch();
+        stopWatch.start();
+        log.info("Catalog update process starting at {}", getDateTimeInstance(MEDIUM, MEDIUM).format(stopWatch.getStartTime()));
+        try {
+            cataloger.update();
+            stopWatch.stop();
+            log.info("Catalog update completed at {}, in {} ms",
+                    getDateTimeInstance(MEDIUM, MEDIUM).format(stopWatch.getStopTime()),
+                    stopWatch.getTime());
+        } catch (DataAccessException e) {
+            log.error("The catalog update process failed due to: {}", e.getMessage());
+            errorLogService.logDataAccessException(new Date(), e);
         }
     }
 }
