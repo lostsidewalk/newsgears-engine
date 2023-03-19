@@ -21,7 +21,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @ComponentScan({
         "com.lostsidewalk.buffy",
         "com.lostsidewalk.buffy.engine",
-        "com.lostsidewalk.buffy.newsapi",
         "com.lostsidewalk.buffy.rss",
 })
 @Configuration
