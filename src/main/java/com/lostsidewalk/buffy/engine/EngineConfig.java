@@ -16,6 +16,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import java.util.Date;
 
 import static java.util.concurrent.TimeUnit.HOURS;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static org.apache.commons.lang3.time.FastDateFormat.MEDIUM;
 import static org.apache.commons.lang3.time.FastDateFormat.getDateTimeInstance;
 
@@ -48,18 +49,40 @@ public class EngineConfig {
     }
 
     @Scheduled(fixedDelayString = "${post.importer.purge-delay}", timeUnit = HOURS)
-    @Transactional
+//    @Transactional
     public void doPurge() {
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
         log.info("Purge process starting at {}", getDateTimeInstance(MEDIUM, MEDIUM).format(stopWatch.getStartTime()));
         try {
-            long itemsPurged = postPurger.doPurge();
+            long metricsPurged = postPurger.purgeOrphanedQueryMetrics(); // ok
             stopWatch.stop();
-            log.info("Purge process completed at {}, {} items purged in {} ms",
+            long metricsPurgeDuration = stopWatch.getTime(MILLISECONDS);
+            stopWatch.reset();
+            stopWatch.start();
+            long postsPurged = postPurger.purgeArchivedPosts(); // ok
+            stopWatch.stop();
+            long postPurgeDuration = stopWatch.getTime(MILLISECONDS);
+            stopWatch.reset();
+            stopWatch.start();
+            long postsArchived = postPurger.markIdlePostsForArchive(); // ok
+            stopWatch.stop();
+            long postArchiveDuration = stopWatch.getTime(MILLISECONDS);
+            stopWatch.reset();
+            stopWatch.start();
+            long queuesPurged = postPurger.purgeDeletedQueues(); // ok
+            stopWatch.stop();
+            long queuePurgeDuration = stopWatch.getTime(MILLISECONDS);
+            log.info("Purge process completed at {}, metricsPurged={}, metricsPurgeDuration={}, postsPurged={}, postPurgeDuration={}, postsArchived={}, postArchiveDuration={}, queuesPurged={}, queuePurgeDuration={}",
                     getDateTimeInstance(MEDIUM, MEDIUM).format(stopWatch.getStopTime()),
-                    itemsPurged,
-                    stopWatch.getTime());
+                    metricsPurged,
+                    metricsPurgeDuration,
+                    postsPurged,
+                    postPurgeDuration,
+                    postsArchived,
+                    postArchiveDuration,
+                    queuesPurged,
+                    queuePurgeDuration);
         } catch (DataAccessException e) {
             log.error("The purge process failed due to: {}", e.getMessage());
             errorLogService.logDataAccessException(new Date(), e);
