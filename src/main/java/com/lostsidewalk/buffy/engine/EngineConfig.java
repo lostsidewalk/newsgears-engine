@@ -4,6 +4,7 @@ import com.lostsidewalk.buffy.DataAccessException;
 import com.lostsidewalk.buffy.DataUpdateException;
 import com.lostsidewalk.buffy.discovery.Cataloger;
 import com.lostsidewalk.buffy.engine.audit.ErrorLogService;
+import com.lostsidewalk.buffy.post.ImportScheduler;
 import com.lostsidewalk.buffy.post.PostImporter;
 import com.lostsidewalk.buffy.post.PostPurger;
 import jakarta.transaction.Transactional;
@@ -31,6 +32,9 @@ public class EngineConfig {
     PostImporter postImporter;
 
     @Autowired
+    ImportScheduler importScheduler;
+
+    @Autowired
     PostPurger postPurger;
 
     @Autowired
@@ -46,6 +50,10 @@ public class EngineConfig {
         // run the import process on all active queries (across all users)
         //
         postImporter.doImport();
+        //
+        // run the scheduler to re-schedule all queries based on new query metrics
+        //
+        importScheduler.update();
     }
 
     @Scheduled(fixedDelayString = "${post.importer.purge-delay}", timeUnit = HOURS)
