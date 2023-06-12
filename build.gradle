@@ -21,20 +21,20 @@ repositories {
 
 dependencies {
     // NewsGears importer
-    implementation 'com.lostsidewalk.newsgears:newsgears-importer:0.5.0'
+    implementation 'com.lostsidewalk.newsgears:newsgears-importer:0.5.1'
     // NewsGears cataloger
-    implementation 'com.lostsidewalk.newsgears:newsgears-cataloger:0.5.0'
+    implementation 'com.lostsidewalk.newsgears:newsgears-cataloger:0.5.1'
     // adds RSS/ATOM to the import path
-    implementation 'com.lostsidewalk.newsgears:newsgears-rss-importer:0.5.1'
+    implementation 'com.lostsidewalk.newsgears:newsgears-rss-importer:0.5.2'
 
     // spring-boot-starter-parent
     implementation 'org.springframework.boot:spring-boot-starter-parent:3.0.4'
     // spring-boot-starter-actuator
-    implementation 'org.springframework.boot:spring-boot-starter-actuator:3.0.4'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator:3.1.0'
     // sprig-boot-starter-web
-    implementation 'org.springframework.boot:spring-boot-starter-web:3.0.4'
+    implementation 'org.springframework.boot:spring-boot-starter-web:3.1.0'
     // spring-context
-    implementation 'org.springframework:spring-context:6.0.6'
+    implementation 'org.springframework:spring-context:6.0.9'
 
     // commons-collections4
     implementation 'org.apache.commons:commons-collections4:4.4'
@@ -53,7 +53,7 @@ dependencies {
     runtimeOnly 'org.postgresql:postgresql:42.5.4'
 
     // test
-    testImplementation('org.springframework.boot:spring-boot-starter-test:3.0.4') {
+    testImplementation('org.springframework.boot:spring-boot-starter-test:3.1.0') {
         exclude group: 'com.vaadin.external.google', module: 'android-json'
     }
     // junit-jupiter
