@@ -21,6 +21,7 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static org.apache.commons.lang3.time.FastDateFormat.MEDIUM;
 import static org.apache.commons.lang3.time.FastDateFormat.getDateTimeInstance;
 
+@SuppressWarnings("DesignForExtension")
 @Slf4j
 @Configuration
 public class EngineConfig {
@@ -58,7 +59,7 @@ public class EngineConfig {
 
     @Scheduled(fixedDelayString = "${post.importer.purge-delay}", timeUnit = HOURS)
 //    @Transactional
-    public void doPurge() {
+    public final void doPurge() {
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
         log.info("Purge process starting at {}", getDateTimeInstance(MEDIUM, MEDIUM).format(stopWatch.getStartTime()));
@@ -116,5 +117,16 @@ public class EngineConfig {
             log.error("The catalog update process failed due to: {}", e.getMessage());
             errorLogService.logDataAccessException(new Date(), e);
         }
+    }
+
+    @Override
+    public final String toString() {
+        return "EngineConfig{" +
+                "errorLogService=" + errorLogService +
+                ", postImporter=" + postImporter +
+                ", importScheduler=" + importScheduler +
+                ", postPurger=" + postPurger +
+                ", cataloger=" + cataloger +
+                '}';
     }
 }

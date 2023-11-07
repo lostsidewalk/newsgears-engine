@@ -21,17 +21,17 @@ repositories {
 
 dependencies {
     // NewsGears importer
-    implementation 'com.lostsidewalk.newsgears:newsgears-importer:0.5.7'
-    implementation 'com.lostsidewalk.newsgears:newsgears-importer:0.5.7:javadoc'
-    implementation 'com.lostsidewalk.newsgears:newsgears-importer:0.5.7:sources'
+    implementation 'com.lostsidewalk.newsgears:newsgears-importer:0.5.9'
+    implementation 'com.lostsidewalk.newsgears:newsgears-importer:0.5.9:javadoc'
+    implementation 'com.lostsidewalk.newsgears:newsgears-importer:0.5.9:sources'
     // NewsGears cataloger
-    implementation 'com.lostsidewalk.newsgears:newsgears-cataloger:0.5.7'
-    implementation 'com.lostsidewalk.newsgears:newsgears-cataloger:0.5.7:javadoc'
-    implementation 'com.lostsidewalk.newsgears:newsgears-cataloger:0.5.7:sources'
+    implementation 'com.lostsidewalk.newsgears:newsgears-cataloger:0.5.9'
+    implementation 'com.lostsidewalk.newsgears:newsgears-cataloger:0.5.9:javadoc'
+    implementation 'com.lostsidewalk.newsgears:newsgears-cataloger:0.5.9:sources'
     // adds RSS/ATOM to the import path
-    implementation 'com.lostsidewalk.newsgears:newsgears-rss-importer:0.5.8'
-    implementation 'com.lostsidewalk.newsgears:newsgears-rss-importer:0.5.8:javadoc'
-    implementation 'com.lostsidewalk.newsgears:newsgears-rss-importer:0.5.8:sources'
+    implementation 'com.lostsidewalk.newsgears:newsgears-rss-importer:0.5.10'
+    implementation 'com.lostsidewalk.newsgears:newsgears-rss-importer:0.5.10:javadoc'
+    implementation 'com.lostsidewalk.newsgears:newsgears-rss-importer:0.5.10:sources'
 
     // spring-boot-starter-parent
     implementation 'org.springframework.boot:spring-boot-starter-parent:3.1.2'
