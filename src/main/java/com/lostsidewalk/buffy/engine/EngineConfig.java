@@ -58,8 +58,7 @@ public class EngineConfig {
     }
 
     @Scheduled(fixedDelayString = "${post.importer.purge-delay}", timeUnit = HOURS)
-//    @Transactional
-    public final void doPurge() {
+    public void doPurge() {
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
         log.info("Purge process starting at {}", getDateTimeInstance(MEDIUM, MEDIUM).format(stopWatch.getStartTime()));
