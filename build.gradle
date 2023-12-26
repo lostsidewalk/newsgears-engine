@@ -29,9 +29,9 @@ dependencies {
     implementation 'com.lostsidewalk.newsgears:newsgears-cataloger:0.5.9:javadoc'
     implementation 'com.lostsidewalk.newsgears:newsgears-cataloger:0.5.9:sources'
     // adds RSS/ATOM to the import path
-    implementation 'com.lostsidewalk.newsgears:newsgears-rss-importer:0.5.12'
-    implementation 'com.lostsidewalk.newsgears:newsgears-rss-importer:0.5.12:javadoc'
-    implementation 'com.lostsidewalk.newsgears:newsgears-rss-importer:0.5.12:sources'
+    implementation 'com.lostsidewalk.newsgears:newsgears-rss-importer:0.5.13'
+    implementation 'com.lostsidewalk.newsgears:newsgears-rss-importer:0.5.13:javadoc'
+    implementation 'com.lostsidewalk.newsgears:newsgears-rss-importer:0.5.13:sources'
 
     // spring-boot-starter-parent
     implementation 'org.springframework.boot:spring-boot-starter-parent:3.1.2'
