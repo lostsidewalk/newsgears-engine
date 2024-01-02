@@ -21,9 +21,9 @@ repositories {
 
 dependencies {
     // NewsGears importer
-    implementation 'com.lostsidewalk.newsgears:newsgears-importer:0.5.10'
-    implementation 'com.lostsidewalk.newsgears:newsgears-importer:0.5.10:javadoc'
-    implementation 'com.lostsidewalk.newsgears:newsgears-importer:0.5.10:sources'
+    implementation 'com.lostsidewalk.newsgears:newsgears-importer:0.5.11'
+    implementation 'com.lostsidewalk.newsgears:newsgears-importer:0.5.11:javadoc'
+    implementation 'com.lostsidewalk.newsgears:newsgears-importer:0.5.11:sources'
     // NewsGears cataloger
     implementation 'com.lostsidewalk.newsgears:newsgears-cataloger:0.5.9'
     implementation 'com.lostsidewalk.newsgears:newsgears-cataloger:0.5.9:javadoc'
